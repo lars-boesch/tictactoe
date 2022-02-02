@@ -92,8 +92,6 @@ class Game extends React.Component {
 
   clearBoard() {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
-    const current = history[history.length - 1];
-    const squares = current.squares.slice();
     this.setState({
       history: history.concat([{
         squares: Array(9).fill(null),
@@ -124,6 +122,16 @@ class Game extends React.Component {
       status = 'Winner: ' + winner;
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      if (!this.state.xIsNext) {
+        const history = this.state.history.slice(0, this.state.stepNumber + 1);
+        const current = history[history.length - 1];
+        const squares = current.squares.slice();
+        let num;
+        do
+          num = Math.floor(Math.random() * 9);
+        while (squares[num])
+        this.handleClick(num);
+      }
     }
 
     return (
